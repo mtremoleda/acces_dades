@@ -12,14 +12,14 @@ public static class Endpoints
         // GET /products
         app.MapGet("/products", () =>
         {
-            List<ProductADO> products = ProductADO.GetAll(dbConn);
+            List<Product> products = ProductADO.GetAll(dbConn);
             return Results.Ok(products);
         });
 
         // GET Product by id
         app.MapGet("/products/{id}", (Guid id) =>
         {
-            ProductADO product = ProductADO.GetById(dbConn, id);
+            Product product = ProductADO.GetById(dbConn, id);
 
             return product is not null
                 ? Results.Ok(product)
@@ -41,7 +41,7 @@ public static class Endpoints
         // POST /products
         app.MapPost("/products", (ProductRequest req) =>
         {
-            ProductADO productADO = new ProductADO
+            Product product = new Product
             {
                 Id = Guid.NewGuid(),
                 Code = req.Code,
@@ -49,9 +49,9 @@ public static class Endpoints
                 Price = req.Price
             };
 
-            productADO.Insert(dbConn);
+            ProductADO.Insert(dbConn,product);
 
-            return Results.Created($"/products/{productADO.Id}", productADO);
+            return Results.Created($"/products/{product.Id}", product);
         });
     }
 

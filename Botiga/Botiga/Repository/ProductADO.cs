@@ -1,17 +1,15 @@
 ﻿using Microsoft.Data.SqlClient;
 using static System.Console;
 using Botiga.Services;
+using Botiga.Model;
 
 namespace Botiga.Repository
 {
     class ProductADO
     {
-        public Guid Id { get; set; }
-        public string Code { get; set; } = "";
-        public string Name { get; set; } = "";
-        public decimal Price { get; set; }
+      
 
-        public void Insert(DatabaseConnection dbConn)
+        public static void Insert(DatabaseConnection dbConn, Product product)
         {
 
             dbConn.Open();
@@ -20,19 +18,19 @@ namespace Botiga.Repository
                         VALUES (@Id, @Code, @Name, @Price)";
 
             using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
-            cmd.Parameters.AddWithValue("@Id", Id);
-            cmd.Parameters.AddWithValue("@Code", Code);
-            cmd.Parameters.AddWithValue("@Name", Name);
-            cmd.Parameters.AddWithValue("@Price", Price);
+            cmd.Parameters.AddWithValue("@Id", product.Id);
+            cmd.Parameters.AddWithValue("@Code", product.Code);
+            cmd.Parameters.AddWithValue("@Name", product.Name);
+            cmd.Parameters.AddWithValue("@Price", product.Price);
 
             int rows = cmd.ExecuteNonQuery();
             Console.WriteLine($"{rows} fila inserida.");
             dbConn.Close();
         }
 
-        public static List<ProductADO> GetAll(DatabaseConnection dbConn)
+        public static List<Product> GetAll(DatabaseConnection dbConn)
         {
-            List<ProductADO> products = new();
+            List<Product> products = new();
 
             dbConn.Open();
             string sql = "SELECT Id, Code, Name, Price FROM Products";
@@ -42,7 +40,7 @@ namespace Botiga.Repository
 
             while (reader.Read())
             {
-                products.Add(new ProductADO
+                products.Add(new Product
                 {
                     Id = reader.GetGuid(0),
                     Code = reader.GetString(1),
@@ -55,7 +53,7 @@ namespace Botiga.Repository
             return products;
         }
 
-        public static ProductADO? GetById(DatabaseConnection dbConn, Guid id)
+        public static Product? GetById(DatabaseConnection dbConn, Guid id)
         {
             dbConn.Open();
             string sql = "SELECT Id, Code, Name, Price FROM Products WHERE Id = @Id";
@@ -64,11 +62,11 @@ namespace Botiga.Repository
             cmd.Parameters.AddWithValue("@Id", id);
 
             using SqlDataReader reader = cmd.ExecuteReader();
-            ProductADO? product = null;
+            Product? product = null;
 
             if (reader.Read())
             {
-                product = new ProductADO
+                product = new Product
                 {
                     Id = reader.GetGuid(0),
                     Code = reader.GetString(1),
