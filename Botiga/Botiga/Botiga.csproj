@@ -7,6 +7,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Include="EndPoints\CarroDeLaCompra" />
+    <Compile Include="EndPoints\Carros" />
+    <Compile Include="EndPoints\Product" />
+    <Compile Include="Model\CarroDeLaCompra" />
+    <Compile Include="Model\Carros" />
+    <Compile Include="Model\Product" />
+    <Compile Include="Repository\CarroDeLaCompraADO" />
+    <Compile Include="Repository\CarrosADO" />
+    <Compile Include="Repository\ProductADO" />
+  </ItemGroup>
+
 	<ItemGroup>
 
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
