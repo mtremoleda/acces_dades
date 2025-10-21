@@ -2,60 +2,48 @@
 using Botiga.Services;
 using Botiga.Model;
 
-
-namespace Botiga.EndPoints;
-
-public static class EndpointsProducts
+namespace Botiga.EndPoints
 {
-    public static void MapProductEndpoints(this WebApplication app, DatabaseConnection dbConn)
+    public static class EndpointsProduct
     {
-        // GET /products
-        app.MapGet("/products", () =>
+        public static void MapProductEndpoints(this WebApplication app, DatabaseConnection dbConn)
         {
-            List<Familia> products = ProductADO.GetAll(dbConn);
-            return Results.Ok(products);
-        });
-
-        // GET Product by id
-        app.MapGet("/products/{id}", (Guid id) =>
-        {
-            Familia product = ProductADO.GetById(dbConn, id);
-
-            return product is not null
-                ? Results.Ok(product)
-                : Results.NotFound(new { message = $"Product with Id {id} not found." });
-
-            // if (product is not null)
-            // {
-            //     return Results.Ok(product);
-            // }
-            // else
-            // {
-            //     return Results.NotFound(new { message = $"Product with Id {id} not found." });
-            // }
-        });
-
-
-
-
-        // POST /products
-        app.MapPost("/products", (ProductRequest req) =>
-        {
-            Familia product = new Familia
+            // GET /product
+            app.MapGet("/product", () =>
             {
-                Id = Guid.NewGuid(),
-                Code = req.Code,
-                Name = req.Name,
-                Price = req.Price
-            };
+                List<Product> products = ProductADO.GetAll(dbConn);
+                return Results.Ok(products);
+            });
 
-            ProductADO.Insert(dbConn,product);
+            // GET /product/{id}
+            app.MapGet("/product/{id}", (Guid id) =>
+            {
+                Product product = ProductADO.GetById(dbConn, id)!;
 
-            return Results.Created($"/products/{product.Id}", product);
-        });
+                return product is not null
+                    ? Results.Ok(product)
+                    : Results.NotFound(new { message = $"Product with Id {id} not found." });
+            });
+
+            // POST /product
+            app.MapPost("/product", (ProductRequest req) =>
+            {
+                Product product = new Product
+                {
+                    Id = Guid.NewGuid(),
+                    Nom = req.Nom,
+                    Descripcio = req.Descripcio,
+                    Preu = req.Preu,
+                    Descompte = req.Descompte
+                };
+
+                ProductADO.Insert(dbConn, product);
+
+                return Results.Created($"/product/{product.Id}", product);
+            });
+        }
     }
 
-
+    
+    public record ProductRequest(string Nom, string Descripcio, decimal Preu, int Descompte);
 }
-
-public record ProductRequest(string Code, string Name, decimal Price);  // Com ha de llegir el POST
