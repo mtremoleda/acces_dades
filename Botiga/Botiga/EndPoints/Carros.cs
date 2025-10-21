@@ -2,53 +2,43 @@ using Botiga.Repository;
 using Botiga.Services;
 using Botiga.Model;
 
-
 namespace Botiga.EndPoints;
 
 public static class EndpointsCarros
 {
     public static void MapCarrosEndpoints(this WebApplication app, DatabaseConnection dbConn)
     {
-        // GET /Carros
+        // GET /carros
         app.MapGet("/carros", () =>
         {
-            List<Carros> carro = CarrosADO.GetAll(dbConn);
-            return Results.Ok(carro);
+            List<Carros> carros = CarrosADO.GetAll(dbConn);
+            return Results.Ok(carros);
         });
 
-        // GET Carro by id
+        // GET /carros/{id}
         app.MapGet("/carros/{id}", (Guid id) =>
         {
             Carros carro = CarrosADO.GetById(dbConn, id)!;
 
             return carro is not null
                 ? Results.Ok(carro)
-                : Results.NotFound(new { message = $"Carros with Id {id} not found." });
-
-
+                : Results.NotFound(new { message = $"Carro with Id {id} not found." });
         });
 
-
-
-
-        // POST /familia
-        app.MapPost("/familia", (FamiliaRequest req) =>
+        // POST /carros
+        app.MapPost("/carros", (CarrosRequest req) =>
         {
-            Familia familia = new Familia
+            Carros carro = new Carros
             {
                 Id = Guid.NewGuid(),
-                Nom = req.Nom,
-                Descripcio = req.Descripcio,
-
+                Nom = req.Nom
             };
 
-            FamiliaADO.Insert(dbConn, familia);
+            CarrosADO.Insert(dbConn, carro);
 
-            return Results.Created($"/familia/{familia.Id}", familia);
+            return Results.Created($"/carros/{carro.Id}", carro);
         });
     }
-
-
 }
 
-public record FamiliaRequest(string Nom, string Descripcio);  // Com ha de llegir el POST
+public record CarrosRequest(string Nom);  // Estructura esperada en el POST

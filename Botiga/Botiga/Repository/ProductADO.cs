@@ -9,7 +9,7 @@ namespace Botiga.Repository
     {
       
 
-        public static void Insert(DatabaseConnection dbConn, Familia product)
+        public static void Insert(DatabaseConnection dbConn, Product product)
         {
 
             dbConn.Open();
