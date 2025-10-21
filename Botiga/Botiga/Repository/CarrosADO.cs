@@ -5,7 +5,7 @@ using Botiga.Model;
 
 namespace Botiga.Repository
 {
-    class ProductADO
+    class CarrosADO
     {
 
 
@@ -14,7 +14,7 @@ namespace Botiga.Repository
 
             dbConn.Open();
 
-            string sql = @"INSERT INTO Products (Id, Code, Name, Price)
+            string sql = @"INSERT INTO Carros (Id, Code, Name, Price)
                         VALUES (@Id, @Code, @Name, @Price)";
 
             using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
