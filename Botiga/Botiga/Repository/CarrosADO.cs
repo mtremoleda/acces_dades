@@ -22,6 +22,8 @@ namespace Botiga.Repository
             cmd.Parameters.AddWithValue("@Nom", carro.Nom);
 
             int rows = cmd.ExecuteNonQuery();
+
+            
             Console.WriteLine($"{rows} fila inserida.");
             dbConn.Close();
         }

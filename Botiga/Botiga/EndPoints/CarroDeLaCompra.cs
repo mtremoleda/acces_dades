@@ -45,7 +45,7 @@ public static class EndpointsCarroDeLaCompra
             {
                 Id = Guid.NewGuid(),
                 IdCarro = req.IdCarro,
-                IdProducte = req.IdProducte,
+                IdProduct = req.IdProduct,
                 Quantitat = req.Quantitat
             };
 
@@ -58,4 +58,4 @@ public static class EndpointsCarroDeLaCompra
 
 }
 
-public record CarroDeLaCompraRequest(string IdCarro, string IdProducte, int Quantitat);  // Com ha de llegir el POST
+public record CarroDeLaCompraRequest(string IdCarro, string IdProduct, int Quantitat);  // Com ha de llegir el POST
