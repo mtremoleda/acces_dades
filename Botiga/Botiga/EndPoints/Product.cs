@@ -1,6 +1,7 @@
 ﻿using Botiga.Repository;
 using Botiga.Services;
 using Botiga.Model;
+using Botiga.DTO;
 
 namespace Botiga.EndPoints
 {
@@ -11,8 +12,18 @@ namespace Botiga.EndPoints
             // GET /product
             app.MapGet("/product", () =>
             {
+                List<ProductResponse> productResponses = new List<ProductResponse>();
                 List<Product> products = ProductADO.GetAll(dbConn);
-                return Results.Ok(products);
+
+                foreach (Product p in products)
+                {
+                    productResponses.Add(ProductResponse.FromProduct(p));
+
+                }
+
+                return Results.Ok(productResponses);
+
+
             });
 
             // GET /product/{id}
@@ -21,7 +32,7 @@ namespace Botiga.EndPoints
                 Product product = ProductADO.GetById(dbConn, id)!;
 
                 return product is not null
-                    ? Results.Ok(product)
+                    ? Results.Ok(ProductResponse.FromProduct(product))
                     : Results.NotFound(new { message = $"Product with Id {id} not found." });
             });
 
