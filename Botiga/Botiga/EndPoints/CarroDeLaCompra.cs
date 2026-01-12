@@ -46,6 +46,7 @@ public static class EndpointsCarroDeLaCompra
                 Id = Guid.NewGuid(),
                 IdCarro = req.IdCarro,
                 IdProduct = req.IdProduct,
+                Preu = req.Preu,
                 Quantitat = req.Quantitat
             };
 
@@ -53,9 +54,34 @@ public static class EndpointsCarroDeLaCompra
 
             return Results.Created($"/carrosdelacompra/{carrosdelacompra.Id}", carrosdelacompra);
         });
+
+        // GET CarroDeLaCompra by id
+        app.MapGet("/carrosdelacompra/{id}", (Guid IdCarro) =>
+        {
+            List<CarroDeLaCompra> llista = CarroDeLaCompraADO.GetAllProductsCarro(dbConn, IdCarro);
+
+            return llista;
+
+            //return carrosdelacompra is not null
+              //  ? Results.Ok(carrosdelacompra)
+                //: Results.NotFound(new { message = $"Carro de la compra with Id {id} not found." });
+
+            // if (product is not null)
+            // {
+            //     return Results.Ok(product);
+            // }
+            // else
+            // {
+            //     return Results.NotFound(new { message = $"Product with Id {id} not found." });
+            // }
+        });
+
+
+
+
     }
 
 
 }
 
-public record CarroDeLaCompraRequest(string IdCarro, string IdProduct, int Quantitat);  // Com ha de llegir el POST
+public record CarroDeLaCompraRequest(string IdCarro, string IdProduct,int Preu, int Quantitat);  // Com ha de llegir el POST

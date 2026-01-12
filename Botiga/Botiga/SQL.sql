@@ -30,5 +30,10 @@ CREATE TABLE CarroDeLaCompra (
        FOREIGN KEY (IdProduct) REFERENCES Product(Id),
    CONSTRAINT FK_Producte_Carro
        FOREIGN KEY (IdCarro) REFERENCES Carros(Id)
-      
+
 );
+ALTER TABLE Botiga.dbo.CarroDeLaCompra ADD Preu decimal(10,2) NULL;
+
+
+      
+

@@ -73,11 +73,44 @@ namespace Botiga.Repository
                     IdCarro = reader.GetGuid(1).ToString(),
                     IdProduct = reader.GetGuid(2).ToString(),
                     Quantitat = reader.GetInt32(3)
+                    
                 };
             }
 
             dbConn.Close();
             return carrodelacompra;
         }
+        //Per aconseguir el preu 
+        public static List<CarroDeLaCompra> GetAllProductsCarro(DatabaseConnection dbConn, Guid IdCarro)
+        {
+            List<CarroDeLaCompra> llista = new();
+            dbConn.Open();
+            string sql = "SELECT * FROM CarroDeLaCompra WHERE IdCarro = @IdCarro";
+
+            using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+            cmd.Parameters.AddWithValue("@IdCarro", IdCarro);
+
+            using SqlDataReader reader = cmd.ExecuteReader();
+            CarroDeLaCompra? carroCompra = null;
+
+            if (reader.Read())
+            {
+                carroCompra = new CarroDeLaCompra
+                {
+                    Id = reader.GetGuid(0),
+                    IdCarro = reader.GetGuid(1).ToString(),
+                    IdProduct = reader.GetGuid(2).ToString(),
+                    Quantitat = reader.GetInt32(3),
+                    Preu = reader.GetDecimal(4)
+                };
+            }
+
+            dbConn.Close();
+            return llista;
+        }
+
+
+
+
     }
 }

@@ -5,6 +5,8 @@ namespace Botiga.Model
         public Guid Id { get; set; }
         public string IdCarro { get; set; } = "";
         public string IdProduct { get; set; } = "";
+
+        public decimal Preu { get; set; }
         public int Quantitat { get; set; }
     }
        
