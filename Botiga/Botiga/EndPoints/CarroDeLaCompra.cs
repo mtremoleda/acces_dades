@@ -1,6 +1,7 @@
+using Botiga.Descomptes;
+using Botiga.Model;
 using Botiga.Repository;
 using Botiga.Services;
-using Botiga.Model;
 
 
 namespace Botiga.EndPoints;
@@ -56,15 +57,30 @@ public static class EndpointsCarroDeLaCompra
         });
 
         // GET CarroDeLaCompra amb preu
-        app.MapGet("/carrosdelacompra/{id}/import", (Guid id) =>
+        app.MapGet("/carrodelacompra/{id}/import", (Guid id, string tipusClient) =>
         {
-            List<CarroDeLaCompra> llista = CarroDeLaCompraADO.GetAllProductsCarro(dbConn, id);
+            List<CarroDeLaCompra> llista = CarroDeLaCompraADO.GetAllProductsCarro(dbConn, id)!;
+
+
+            //Calcular import quantitat * preu
 
 
 
+            IDescompteFactory dteFactory = tipusClient switch
+            {
+                "Estandard" => new DescompteEstandarFactory(),
+                "Premium" => new DescomptePremiumFactory(),
+                _ => throw new ArgumentException("Tipus de client desconegut.")
+            };
+
+            IDescompte descompte = dteFactory.CreateDescompte();
+            descompte.CalcularDte();
+
+            //Calcular descompte //crear descompte per determinar
 
 
 
+            //Retornar import, Descompte, Import amb descompte
             return Results.Ok(llista);
         });
 
