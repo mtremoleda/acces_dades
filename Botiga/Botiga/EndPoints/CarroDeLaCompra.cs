@@ -63,7 +63,7 @@ public static class EndpointsCarroDeLaCompra
             List<CarroDeLaCompra> llista = CarroDeLaCompraADO.GetAllProductsCarro(dbConn, id)!;
 
 
-            //Calcular import quantitat * preu
+            
             decimal import = CalculsCarroDeLaCompra.CalcularImport(llista);
 
 
@@ -80,13 +80,19 @@ public static class EndpointsCarroDeLaCompra
             decimal importFinal = import - dte;
 
 
-            //Calcular descompte //crear descompte per determinar
 
 
-            
-            return Results.Ok(importFinal);
-            //Retornar import, Descompte, Import amb descompte
-            //return Results.Ok(llista);
+            // S'ha de retornar un objecte no un valor.
+
+
+            return Results.Ok(new
+            {
+                Import = import,
+                Descompte = dte,
+                ImportFinal = importFinal
+            });
+
+          
         });
 
     }
