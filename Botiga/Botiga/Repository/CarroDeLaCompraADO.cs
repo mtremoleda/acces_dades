@@ -109,8 +109,5 @@ namespace Botiga.Repository
             return llista;
         }
 
-
-
-
     }
 }

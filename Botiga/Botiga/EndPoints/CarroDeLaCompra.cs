@@ -1,3 +1,4 @@
+using Botiga.Classes;
 using Botiga.Descomptes;
 using Botiga.Model;
 using Botiga.Repository;
@@ -63,7 +64,7 @@ public static class EndpointsCarroDeLaCompra
 
 
             //Calcular import quantitat * preu
-
+            decimal import = CalculsCarroDeLaCompra.CalcularImport(llista);
 
 
             IDescompteFactory dteFactory = tipusClient switch
@@ -74,19 +75,19 @@ public static class EndpointsCarroDeLaCompra
             };
 
             IDescompte descompte = dteFactory.CreateDescompte();
-            descompte.CalcularDte();
+            decimal dte = descompte.CalcularDte(import);
+
+            decimal importFinal = import - dte;
+
 
             //Calcular descompte //crear descompte per determinar
 
 
-
+            
+            return Results.Ok(importFinal);
             //Retornar import, Descompte, Import amb descompte
-            return Results.Ok(llista);
+            //return Results.Ok(llista);
         });
-
-
-
-
 
     }
 

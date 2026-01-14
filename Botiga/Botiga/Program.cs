@@ -12,13 +12,30 @@ builder.Configuration
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 DatabaseConnection dbConn = new DatabaseConnection(connectionString);
 
-WebApplication webApp = builder.Build();
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-// Registra els endpoints en un mètode separat
-webApp.MapProductEndpoints(dbConn);
-webApp.MapFamiliaEndpoints(dbConn);
-webApp.MapCarrosEndpoints(dbConn);
-webApp.MapCarroDeLaCompraEndpoints(dbConn);
+var app = builder.Build();
+
+// Swagger només en desenvolupament
 
 
-webApp.Run();
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
+// Redirecció a Swagger
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/swagger");
+    return Task.CompletedTask;
+});
+
+// Endpoints
+app.MapProductEndpoints(dbConn);
+app.MapCarrosEndpoints(dbConn);
+app.MapFamiliaEndpoints(dbConn);
+app.MapCarroDeLaCompraEndpoints(dbConn);
+
+app.Run();
