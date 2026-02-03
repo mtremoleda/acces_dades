@@ -1,6 +1,7 @@
 using Botiga.Classes;
 using Botiga.Descomptes;
 using Botiga.DTO;
+using Botiga.DTO.Compra;
 using Botiga.Model;
 using Botiga.Repository;
 using Botiga.Services;
