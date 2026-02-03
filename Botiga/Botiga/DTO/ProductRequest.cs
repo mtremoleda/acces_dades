@@ -3,7 +3,7 @@
 using Botiga.Model;
 
 
-namespace dbdemo.DTO;
+namespace Botiga.DTO;
 
 public record ProductRequest(string Nom, string Descripcio, decimal Preu, int Descompte)
 {
