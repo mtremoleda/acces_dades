@@ -1,6 +1,8 @@
 using Botiga.Classes;
+using Botiga.COMMON;
 using Botiga.Descomptes;
 using Botiga.Domain.Entities;
+using Botiga.Domain.Validators;
 using Botiga.DTO;
 using Botiga.DTO.Compras;
 using Botiga.Model;
@@ -24,6 +26,16 @@ public static class EndpointsCompra
         {
             
             Compra compra = req.ToCompra();
+            Result result = CompraValidator.Validate(compra);
+
+            if (!result.IsOk)
+            {
+                return Results.BadRequest(new 
+                {
+                    error = result.ErrorCode,
+                    message = result.ErrorMessage
+                });
+            }
             
             return Results.Ok(compra);
         });
