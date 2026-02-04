@@ -24,6 +24,7 @@ public static class EndpointsCompra
         {
             
             Compra compra = req.ToCompra();
+            
             return Results.Ok(compra);
         });
 
