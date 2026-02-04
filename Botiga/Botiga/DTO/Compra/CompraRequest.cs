@@ -22,7 +22,7 @@ public record CompraRequest(Guid IdClient, DateOnly Data, List<LineaProducteRequ
 
         foreach (LineaProducteRequest producte in Productes)
         {
-            ProductesDomain.Add(producte.ToProducte());   
+            ProductesDomain.Add(producte.ToLineaProducte());   
         }
         compraDomain.Productes = ProductesDomain;
 
