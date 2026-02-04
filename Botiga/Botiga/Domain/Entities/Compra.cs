@@ -1,21 +1,16 @@
-using Botiga.DTO.Compra;
+using Botiga.DTO.Compras;
 
 namespace Botiga.Domain.Entities;
 
 public class Compra
 {
     
-    public  Guid Id { get; set; }
-    public Guid IdClient { get; set; } 
-    public List <LineaProducteRequest> Productes { get; set; }
+    public Client client { get; set; } 
+    
+    public DateOnly data { get; set; } 
+    
+    //public List <LineaProducte> Productes { get; set; }
     
 
-    public Compra(Guid IdClient, List<LineaProducteRequest> productes)
-    {
-        
-        Id = Guid.NewGuid();
-        IdClient = IdClient;
-        Productes = productes;
-    }
 
 }

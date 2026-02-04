@@ -1,7 +1,8 @@
 using Botiga.Classes;
 using Botiga.Descomptes;
+using Botiga.Domain.Entities;
 using Botiga.DTO;
-using Botiga.DTO.Compra;
+using Botiga.DTO.Compras;
 using Botiga.Model;
 using Botiga.Repository;
 using Botiga.Services;
@@ -22,8 +23,8 @@ public static class EndpointsCompra
         app.MapPost("/compra", (CompraRequest req) =>
         {
             
-
-            return Results.Ok(req.Productes);
+            Compra compra = req.ToCompra();
+            return Results.Ok(compra);
         });
 
         
