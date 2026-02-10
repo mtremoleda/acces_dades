@@ -19,8 +19,6 @@ public static class EndpointsCompra
         
 
 
-
-
         // POST /carrosdelacompra
         app.MapPost("/compra", (CompraRequest req) =>
         {
@@ -30,13 +28,13 @@ public static class EndpointsCompra
 
             if (!result.IsOk)
             {
-                return Results.BadRequest(new 
+                return Results.BadRequest(new
                 {
                     error = result.ErrorCode,
                     message = result.ErrorMessage
                 });
             }
-            
+
             return Results.Ok(compra);
         });
 

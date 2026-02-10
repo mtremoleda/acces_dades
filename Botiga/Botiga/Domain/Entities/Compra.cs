@@ -10,7 +10,5 @@ public class Compra
     public DateOnly data { get; set; } 
     
     public List <LineaProducte> Productes { get; set; }
-    
-
 
 }
