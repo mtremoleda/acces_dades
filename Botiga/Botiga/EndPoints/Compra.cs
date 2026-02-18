@@ -5,9 +5,11 @@ using Botiga.Domain.Entities;
 using Botiga.Domain.Validators;
 using Botiga.DTO;
 using Botiga.DTO.Compras;
+using Botiga.Infraestructure.Mappers;
 using Botiga.Model;
 using Botiga.Repository;
 using Botiga.Services;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Botiga.EndPoints;
@@ -34,8 +36,31 @@ public static class EndpointsCompra
                     message = result.ErrorMessage
                 });
             }
+            
 
-            return Results.Ok(compra);
+            Guid IdCarroDeLaCompra = Guid.NewGuid();
+            Guid IdCarros = Guid.NewGuid();
+
+
+
+            
+
+            //CarroDeLaCompraEntity carroDeLaCompraEntity = CarroDeLaCompraMapper.ToEntity(IdCarroDeLaCompra, compra);
+
+            CarroEntity carroEntity = CarrosMapper.ToEntity(IdCarros, compra);
+
+            CarrosADO.InsertCarrosEntity(dbConn, carroEntity);
+
+
+
+
+
+
+
+            //return Results.Ok(compra);
+            return Results.Ok(carroEntity);
+
+
         });
 
         
