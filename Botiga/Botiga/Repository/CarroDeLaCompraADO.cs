@@ -38,7 +38,7 @@ namespace Botiga.Repository
             dbConn.Open();
 
             string sql = @"INSERT INTO CarroDeLaCompra (Id, IdCarro, IdProduct, Quantitat, Preu)
-                        VALUES (@Id, @IdCarro, @IdProduct, @Quantitat)";
+                        VALUES (@Id, @IdCarro, @IdProduct, @Quantitat, @Preu)";
 
             using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
             cmd.Parameters.AddWithValue("@Id", carrodelacompraentity.Id);

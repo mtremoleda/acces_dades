@@ -38,24 +38,28 @@ public static class EndpointsCompra
             }
             
 
-            Guid IdCarroDeLaCompra = Guid.NewGuid();
+            
             Guid IdCarros = Guid.NewGuid();
 
-
-
-            
-
-            //CarroDeLaCompraEntity carroDeLaCompraEntity = CarroDeLaCompraMapper.ToEntity(IdCarroDeLaCompra, compra);
 
             CarroEntity carroEntity = CarrosMapper.ToEntity(IdCarros, compra);
 
             CarrosADO.InsertCarrosEntity(dbConn, carroEntity);
 
 
+            foreach (LineaProducte lp in compra.Productes)
+            {
+                Guid Id = Guid.NewGuid();
+                Console.WriteLine(lp.producte.codi);
+                Preus preu = PreusADO.GetPreu(dbConn, lp.producte.codi);
+                Console.WriteLine(preu.Preu);
 
+                CarroDeLaCompraEntity carroDeLaCompraEntity = CarroDeLaCompraMapper.ToEntity(Id, IdCarros, lp, preu);
+                CarroDeLaCompraADO.InsertCarroDeLaCompraEntity(dbConn, carroDeLaCompraEntity);
 
+            }
 
-
+            //CarroDeLaCompraEntity carroDeLaCompraEntity = CarroDeLaCompraMapper.ToEntity(IdCarroDeLaCompra, compra);
 
             //return Results.Ok(compra);
             return Results.Ok(carroEntity);
